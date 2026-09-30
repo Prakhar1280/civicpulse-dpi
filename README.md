@@ -1,4 +1,4 @@
-🌐 CivicPulse — Multilingual DPI Governance Engine
+# 🌐 CivicPulse — Multilingual DPI Governance Engine
 
 Track 1: AI for Digital Public Infrastructure & Governance (BRICS Theme: Innovation)
 
@@ -23,7 +23,10 @@ Policymaker Decision Support: Generates concrete budget allocation recommendatio
 🛠️ Architecture & Tech Stack
 
 [ Citizen Ingest Layer ]
-       │  (Vernacular Text, Audio, WhatsApp, SMS)
+
+       
+       │  
+       (Vernacular Text, Audio, WhatsApp, SMS)
        ▼
 [ Multilingual Preprocessing Gateway ]
        │
