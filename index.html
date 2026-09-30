@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicPulse — Multilingual DPI Governance Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-6 font-sans">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <header class="border-b border-slate-800 pb-4">
+      <h1 class="text-3xl font-bold text-sky-400">🌐 CivicPulse DPI Governance Engine</h1>
+      <p class="text-slate-400 text-sm mt-1">Aggregating citizen voice into high-priority infrastructure policy across BRICS nations.</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="md:col-span-2 space-y-3">
+        <label class="block text-sm font-semibold text-slate-300">Citizen Feedback (Any Language)</label>
+        <textarea id="grievance" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:outline-none focus:border-sky-500" placeholder="Enter grievance in Hindi, Portuguese, Russian, Chinese, or English...">Nossa comunidade no distrito norte está sem água potável há quatro dias após o rompimento da tubulação principal na via arterial.</textarea>
+      </div>
+      <div class="space-y-3">
+        <label class="block text-sm font-semibold text-slate-300">BRICS Region</label>
+        <select id="region" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm">
+          <option>Brazil</option>
+          <option>India</option>
+          <option>South Africa</option>
+          <option>China</option>
+          <option>Russia</option>
+        </select>
+        <label class="block text-sm font-semibold text-slate-300 mt-2">Intake Channel</label>
+        <select class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm">
+          <option>WhatsApp Voice/Text</option>
+          <option>SMS Gateway</option>
+          <option>IVR Portal</option>
+        </select>
+      </div>
+    </div>
+
+    <button onclick="analyzeFeedback()" id="btn" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg transition">
+      Analyze & Route Request
+    </button>
+
+    <div id="results" class="hidden space-y-4 pt-4 border-t border-slate-800">
+      <div class="grid grid-cols-3 gap-3">
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center">
+          <p class="text-xs text-slate-400">Detected Language</p>
+          <p id="res-lang" class="text-lg font-bold text-sky-400 mt-1">-</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center">
+          <p class="text-xs text-slate-400">Sector</p>
+          <p id="res-sector" class="text-lg font-bold text-emerald-400 mt-1">-</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center">
+          <p class="text-xs text-slate-400">Urgency Score</p>
+          <p id="res-urgency" class="text-lg font-bold text-rose-400 mt-1">-</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-lg space-y-2">
+        <p class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Standardized English Translation</p>
+        <p id="res-trans" class="text-sm text-slate-200"></p>
+      </div>
+
+      <div class="bg-sky-950/40 border border-sky-800/50 p-4 rounded-lg space-y-2">
+        <p class="text-xs text-sky-400 uppercase tracking-wide font-semibold">Actionable Policymaker Recommendation</p>
+        <p id="res-action" class="text-sm text-sky-200"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_KEY = "AQ.Ab8RN6Lrf_C0zUzHNE1XXwqTxCKgD0cRRSK_5RxnxTKrDB2LCg";
+
+    async function analyzeFeedback() {
+      const text = document.getElementById('grievance').value;
+      const region = document.getElementById('region').value;
+      const btn = document.getElementById('btn');
+      btn.innerText = "Analyzing with Gemini Flash...";
+      btn.disabled = true;
+
+      const prompt = `You are an AI engine for Digital Public Infrastructure (DPI) in BRICS nations.
+Analyze this citizen grievance: "${text}" from region: "${region}".
+Respond ONLY with a valid JSON object matching this schema:
+{
+  "detected_language": "Language",
+  "english_translation": "English text",
+  "sector": "Water & Sanitation | Roads & Transit | Energy | Healthcare",
+  "urgency_score": "8/10",
+  "policy_action_plan": "Actionable recommendation"
+}`;
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { responseMimeType: "application/json" }
+          })
+        });
+
+        const data = await res.json();
+        const parsed = JSON.parse(data.candidates[0].content.parts[0].text);
+
+        document.getElementById('res-lang').innerText = parsed.detected_language;
+        document.getElementById('res-sector').innerText = parsed.sector;
+        document.getElementById('res-urgency').innerText = parsed.urgency_score;
+        document.getElementById('res-trans').innerText = parsed.english_translation;
+        document.getElementById('res-action').innerText = parsed.policy_action_plan;
+        document.getElementById('results').classList.remove('hidden');
+      } catch (err) {
+        alert("Error connecting to Gemini API. Check console.");
+        console.error(err);
+      } finally {
+        btn.innerText = "Analyze & Route Request";
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
