@@ -1,4 +1,4 @@
-# 🌐 CivicPulse — Multilingual DPI Governance Engine
+🌐 CivicPulse — Multilingual DPI Governance Engine
 
 Track 1: AI for Digital Public Infrastructure & Governance (BRICS Theme: Innovation)
 
@@ -22,22 +22,22 @@ Policymaker Decision Support: Generates concrete budget allocation recommendatio
 
 🛠️ Architecture & Tech Stack
 
-[Citizen Input: Voice / Text / SMS]
-              │
-              ▼
-[Multilingual Ingest Gateway]
-              │
-              ▼
-[Gemini Multimodal Reasoning Pipeline]
-  ├── Zero-Shot Vernacular Translation
-  ├── Dynamic Sector Categorization
-  └── Real-Time Urgency & Impact Estimation
-              │
-              ▼
-[Standardized DPI Open Data Schema]
-              │
-              ▼
-[Policymaker Hotspot & Capital Routing Dashboard]
+[ Citizen Ingest Layer ]
+       │  (Vernacular Text, Audio, WhatsApp, SMS)
+       ▼
+[ Multilingual Preprocessing Gateway ]
+       │
+       ▼
+[ Gemini 2.5 Flash Reasoning Engine ]
+       ├── Zero-Shot Vernacular Translation
+       ├── Dynamic DPI Sector Categorization
+       └── Impact & Urgency Scoring (1-10)
+       │
+       ▼
+[ Standardized Open DPI Schema (JSON) ]
+       │
+       ▼
+[ Policymaker Hotspot & Budget Routing Dashboard ]
 
 
 Frontend / Interface: Lightweight Single-Page Web Application, Tailwind CSS
