@@ -29,18 +29,22 @@ Policymaker Decision Support: Generates concrete budget allocation recommendatio
        (Vernacular Text, Audio, WhatsApp, SMS)
        ▼
 [ Multilingual Preprocessing Gateway ]
+
        │
        ▼
 [ Gemini 2.5 Flash Reasoning Engine ]
+
        ├── Zero-Shot Vernacular Translation
        ├── Dynamic DPI Sector Categorization
        └── Impact & Urgency Scoring (1-10)
        │
        ▼
+       
 [ Standardized Open DPI Schema (JSON) ]
+
        │
        ▼
-[ Policymaker Hotspot & Budget Routing Dashboard ]
+[ Policymaker Hotspot & Budget Routing Dashboard 
 
 
 Frontend / Interface: Lightweight Single-Page Web Application, Tailwind CSS
