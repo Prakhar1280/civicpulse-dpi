@@ -1,4 +1,4 @@
-🌐 CivicPulse — Multilingual DPI Governance Engine
+# 🌐 CivicPulse — Multilingual DPI Governance Engine
 
 Track 1: AI for Digital Public Infrastructure & Governance (BRICS Theme: Innovation)
 
